@@ -148,48 +148,48 @@ int main() {
 
             break;
         }
-        case 2:
-{
-    system("cls");
-    cout << "Seleccione la tabla que desea modificar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-    int opcionTabla;
-    cin >> opcionTabla;
-
-    switch (opcionTabla) {
-    case 1:
-        tabla = "clientes";
-        updateClientes(connector, tabla);
-        break;
     case 2:
-        tabla = "detalle_venta";
-        updateDetallesVentas(connector, tabla);
+    {
+        system("cls");
+        cout << "Seleccione la tabla que desea modificar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+        int opcionTabla;
+        cin >> opcionTabla;
+
+        switch (opcionTabla) {
+        case 1:
+            tabla = "clientes";
+            updateClientes(connector, tabla);
         break;
-    case 3:
-        tabla = "empleados";
-        updateEmpleados(connector, tabla);
+        case 2:
+            tabla = "detalle_venta";
+            updateDetallesVentas(connector, tabla);
         break;
-    case 4:
-        tabla = "productos";
-        updateProductos(connector, tabla);
+        case 3:
+            tabla = "empleados";
+            updateEmpleados(connector, tabla);
         break;
-    case 5:
-        tabla = "ventas";
-        updateVentas(connector, tabla);
+        case 4:
+            tabla = "productos";
+            updateProductos(connector, tabla);
         break;
-    default:
+        case 5:
+            tabla = "ventas";
+            updateVentas(connector, tabla);
+            break;
+        default:
         cout << "Opcion de tabla invalida." << endl;
         continue;
     }
     break;
-}
-case 3: {
-    system("cls");
-    cout << "Seleccione la tabla que contiene el objeto que desea eliminar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-    int opcionTabla;
-    cin >> opcionTabla;
+    }
+    case 3: {
+        system("cls");
+        cout << "Seleccione la tabla que contiene el objeto que desea eliminar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+        int opcionTabla;
+        cin >> opcionTabla;
 
-    string tabla;
-    switch (opcionTabla) {
+        string tabla;
+        switch (opcionTabla) {
     case 1:
         tabla = "clientes";
         break;
@@ -243,14 +243,14 @@ case 3: {
     }
 
     break;
-}
+    }
 
-case 4:
-{
+    case 4:
+    {
     system("cls");
-    cout << "Seleccione la tabla que desea visualizar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-    int opcionTabla;
-    cin >> opcionTabla;
+        cout << "Seleccione la tabla que desea visualizar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+        int opcionTabla;
+        cin >> opcionTabla;
 
     switch (opcionTabla) {
     case 1:
@@ -267,17 +267,17 @@ case 4:
         break;
     case 5:
         tabla = "ventas";
-        break;
+    break;
     default:
-        cout << "Opcion de tabla invalida." << endl;
-        continue;
+    cout << "Opcion de tabla invalida." << endl;
+    continue;
     }
 
-    cout << "Mostrando todos los registros de la tabla " << tabla << ":" << endl;
-    query = "SELECT * FROM " + tabla;
-    connector.select(query);
-    break;
-}
+            cout << "Mostrando todos los registros de la tabla " << tabla << ":" << endl;
+            query = "SELECT * FROM " + tabla;
+            connector.select(query);
+            break;
+        }
         case 5:
             cout << "Saliendo..." << endl;
             break;
