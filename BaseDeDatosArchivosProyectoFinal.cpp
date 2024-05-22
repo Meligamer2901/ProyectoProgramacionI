@@ -148,130 +148,130 @@ int main() {
 
             break;
         }
-    case 2:
-    {
-        system("cls");
-        cout << "Seleccione la tabla que desea modificar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-        int opcionTabla;
-        cin >> opcionTabla;
-
-        switch (opcionTabla) {
-        case 1:
-            tabla = "clientes";
-            updateClientes(connector, tabla);
-        break;
         case 2:
-            tabla = "detalle_venta";
-            updateDetallesVentas(connector, tabla);
-        break;
-        case 3:
-            tabla = "empleados";
-            updateEmpleados(connector, tabla);
-        break;
-        case 4:
-            tabla = "productos";
-            updateProductos(connector, tabla);
-        break;
-        case 5:
-            tabla = "ventas";
-            updateVentas(connector, tabla);
+        {
+            system("cls");
+            cout << "Seleccione la tabla que desea modificar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+            int opcionTabla;
+            cin >> opcionTabla;
+
+            switch (opcionTabla) {
+            case 1:
+                tabla = "clientes";
+                updateClientes(connector, tabla);
+                break;
+            case 2:
+                tabla = "detalle_venta";
+                updateDetallesVentas(connector, tabla);
+                break;
+            case 3:
+                tabla = "empleados";
+                updateEmpleados(connector, tabla);
+                break;
+            case 4:
+                tabla = "productos";
+                updateProductos(connector, tabla);
+                break;
+            case 5:
+                tabla = "ventas";
+                updateVentas(connector, tabla);
+                break;
+            default:
+                cout << "Opcion de tabla invalida." << endl;
+                continue;
+            }
             break;
-        default:
-        cout << "Opcion de tabla invalida." << endl;
-        continue;
-    }
-    break;
-    }
-    case 3: {
-        system("cls");
-        cout << "Seleccione la tabla que contiene el objeto que desea eliminar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-        int opcionTabla;
-        cin >> opcionTabla;
+        }
+        case 3: {
+            system("cls");
+            cout << "Seleccione la tabla que contiene el objeto que desea eliminar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+            int opcionTabla;
+            cin >> opcionTabla;
 
-        string tabla;
-        switch (opcionTabla) {
-    case 1:
-        tabla = "clientes";
-        break;
-    case 2:
-        tabla = "detalle_venta";
-        break;
-    case 3:
-        tabla = "empleados";
-        break;
-    case 4:
-        tabla = "productos";
-        break;
-    case 5:
-        tabla = "ventas";
-        break;
-    default:
-        cout << "Opcion de tabla invalida." << endl;
-        continue;
-    }
+            string tabla;
+            switch (opcionTabla) {
+            case 1:
+                tabla = "clientes";
+                break;
+            case 2:
+                tabla = "detalle_venta";
+                break;
+            case 3:
+                tabla = "empleados";
+                break;
+            case 4:
+                tabla = "productos";
+                break;
+            case 5:
+                tabla = "ventas";
+                break;
+            default:
+                cout << "Opcion de tabla invalida." << endl;
+                continue;
+            }
 
-    string id;
-    cout << "Ingrese el ID o NIT del registro que desea eliminar de la tabla " << tabla << ": ";
-    cin.ignore();
-    getline(cin, id);
+            string id;
+            cout << "Ingrese el ID o NIT del registro que desea eliminar de la tabla " << tabla << ": ";
+            cin.ignore();
+            getline(cin, id);
 
-    string id_columna;
-    if (tabla == "clientes") {
-        id_columna = "nit_cliente";
-    }
-    else if (tabla == "detalle_venta") {
-        id_columna = "id_det_venta";
-    }
-    else if (tabla == "empleados") {
-        id_columna = "id_empleado";
-    }
-    else if (tabla == "productos") {
-        id_columna = "id_producto";
-    }
-    else if (tabla == "ventas") {
-        id_columna = "id_venta";
-    }
+            string id_columna;
+            if (tabla == "clientes") {
+                id_columna = "nit_cliente";
+            }
+            else if (tabla == "detalle_venta") {
+                id_columna = "id_det_venta";
+            }
+            else if (tabla == "empleados") {
+                id_columna = "id_empleado";
+            }
+            else if (tabla == "productos") {
+                id_columna = "id_producto";
+            }
+            else if (tabla == "ventas") {
+                id_columna = "id_venta";
+            }
 
-    string query = "SELECT " + id_columna + " FROM " + tabla + " WHERE " + id_columna + " = '" + id + "'";
-    if (connector.select(query)) {
-        query = "DELETE FROM " + tabla + " WHERE " + id_columna + " = '" + id + "'";
-        connector.del(query);
-        cout << "Registro eliminado exitosamente." << endl;
-    }
-    else {
-        cout << "El ID especificado no pertenece a la tabla seleccionada." << endl;
-    }
+            string query = "SELECT " + id_columna + " FROM " + tabla + " WHERE " + id_columna + " = '" + id + "'";
+            if (connector.select(query)) {
+                query = "DELETE FROM " + tabla + " WHERE " + id_columna + " = '" + id + "'";
+                connector.del(query);
+                cout << "Registro eliminado exitosamente." << endl;
+            }
+            else {
+                cout << "El ID especificado no pertenece a la tabla seleccionada." << endl;
+            }
 
-    break;
-    }
+            break;
+        }
 
-    case 4:
-    {
-    system("cls");
-        cout << "Seleccione la tabla que desea visualizar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
-        int opcionTabla;
-        cin >> opcionTabla;
+        case 4:
+        {
+            system("cls");
+            cout << "Seleccione la tabla que desea visualizar:\n1. Clientes\n2. Detalle_Venta\n3. Empleados\n4. Productos\n5. Ventas\nTabla: ";
+            int opcionTabla;
+            cin >> opcionTabla;
 
-    switch (opcionTabla) {
-    case 1:
-        tabla = "clientes";
-        break;
-    case 2:
-        tabla = "detalle_venta";
-        break;
-    case 3:
-        tabla = "empleados";
-        break;
-    case 4:
-        tabla = "productos";
-        break;
-    case 5:
-        tabla = "ventas";
-    break;
-    default:
-    cout << "Opcion de tabla invalida." << endl;
-    continue;
-    }
+            switch (opcionTabla) {
+            case 1:
+                tabla = "clientes";
+                break;
+            case 2:
+                tabla = "detalle_venta";
+                break;
+            case 3:
+                tabla = "empleados";
+                break;
+            case 4:
+                tabla = "productos";
+                break;
+            case 5:
+                tabla = "ventas";
+                break;
+            default:
+                cout << "Opcion de tabla invalida." << endl;
+                continue;
+            }
 
             cout << "Mostrando todos los registros de la tabla " << tabla << ":" << endl;
             query = "SELECT * FROM " + tabla;
