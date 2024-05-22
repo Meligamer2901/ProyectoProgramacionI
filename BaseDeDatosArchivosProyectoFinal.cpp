@@ -42,9 +42,9 @@ public:
             if (res) {
                 int num_fields = mysql_num_fields(res);
                 MYSQL_FIELD* fields = mysql_fetch_fields(res);
-                vector<size_t> max_lengths(num_fields, 0); // Longitud máxima de cada campo
+                vector<size_t> max_lengths(num_fields, 0); // Longitud mÃ¡xima de cada campo
 
-                // Calcular la longitud máxima de cada campo
+                // Calcular la longitud mÃ¡xima de cada campo
                 MYSQL_ROW row;
                 while ((row = mysql_fetch_row(res)) != NULL) {
                     for (int i = 0; i < num_fields; i++) {
@@ -54,7 +54,7 @@ public:
                     }
                 }
 
-                // Imprimir los datos con alineación
+                // Imprimir los datos con alineaciÃ³n
                 mysql_data_seek(res, 0); // Reiniciar el cursor
                 while ((row = mysql_fetch_row(res)) != NULL) {
                     for (int i = 0; i < num_fields; i++) {
@@ -106,7 +106,7 @@ int main() {
     MySQLConnector connector("localhost", "root", "/BBCN1978*1973", "proyectoProgra", 3306);
 
     int opcion;
-    string query; // Solo declara la variable aquí, sin inicializarla
+    string query; // Solo declara la variable aquÃ­, sin inicializarla
 
     do {
         cout << "\nMenu:\n1. Insertar registro\n2. Actualizar registro\n3. Eliminar registro\n4. Mostrar registros\n5. Salir\nOpcion: ";
@@ -217,7 +217,7 @@ int main() {
             // Verificar si el ID pertenece a la tabla seleccionada
             string query = "SELECT id FROM " + tabla + " WHERE id = '" + id + "'";
             if (connector.select(query)) {
-                // El ID pertenece a la tabla, proceder con la eliminación
+                // El ID pertenece a la tabla, proceder con la eliminaciÃ³n
                 query = "DELETE FROM " + tabla + " WHERE id = '" + id + "'";
                 connector.del(query);
             }
@@ -279,27 +279,27 @@ int main() {
 void updateClientes(MySQLConnector& connector, const string& tabla) {
     string campo;
     string valor;
-    int id;
+    string id; // Ahora es de tipo string
     cout << "Ingrese el NIT del cliente que desea modificar: ";
     cin >> id;
-    cout << "Seleccione el campo que desea modificar:\n1. NIT\n2. Nombre\n3. Apellido\n4. Email\n5. Telefono\nOpcion: ";
+    cout << "Seleccione el campo que desea modificar:\n1. NIT del empleado\n2. Nombre del cliente\n3. Apellido del cliente\n4. Email\n5. Telefono\nOpcion: ";
     int opcionCampo;
     cin >> opcionCampo;
     switch (opcionCampo) {
     case 1:
-        campo = "NIT cliente";
+        campo = "nit_cliente";
         break;
     case 2:
-        campo = "Nombre del cliente";
+        campo = "nombre";
         break;
     case 3:
-        campo = "Apellido del cliente";
+        campo = "apellido";
         break;
     case 4:
-        campo = "Email";
+        campo = "email";
         break;
     case 5:
-        campo = "Numero Telefonico";
+        campo = "telefono";
         break;
     default:
         cout << "Opcion de campo invalida." << endl;
@@ -308,7 +308,7 @@ void updateClientes(MySQLConnector& connector, const string& tabla) {
     cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
     cin.ignore();
     getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id = " + to_string(id);
+    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE nit_cliente = '" + id + "'"; // CorrecciÃ³n aquÃ­
     connector.update(query);
 }
 void updateEmpleados(MySQLConnector& connector, const string& tabla) {
@@ -317,24 +317,24 @@ void updateEmpleados(MySQLConnector& connector, const string& tabla) {
     int id;
     cout << "Ingrese el ID del empleado que desea modificar: ";
     cin >> id;
-    cout << "Seleccione el campo que desea modificar:\n1. Nombre\n2. Apellido\n3. Puesto\n4. Sexo\n5. Salario\nOpcion: ";
+    cout << "Seleccione el campo que desea modificar:\n1. Nombre del empleado\n2. Apellido del empleado\n3. Puesto del trabajador\n4. Ingrese el sexo (Maculino/Femenino)\n5. Salario laboral\nOpcion: ";
     int opcionCampo;
     cin >> opcionCampo;
     switch (opcionCampo) {
     case 1:
-        campo = "Nombre del empleado";
+        campo = "nombre";
         break;
     case 2:
-        campo = "Apellido del empleado";
+        campo = "apellido";
         break;
     case 3:
-        campo = "Puesto del trabajador";
+        campo = "puesto";
         break;
     case 4:
-        campo = "Ingrese el sexo (M/F)";
+        campo = "genero";
         break;
     case 5:
-        campo = "Salario laboral";
+        campo = "salario";
         break;
     default:
         cout << "Opcion de campo invalida." << endl;
@@ -343,7 +343,7 @@ void updateEmpleados(MySQLConnector& connector, const string& tabla) {
     cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
     cin.ignore();
     getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id = " + to_string(id);
+    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_empleado = " + to_string(id);
     connector.update(query);
 }
 
@@ -353,19 +353,19 @@ void updateProductos(MySQLConnector& connector, const string& tabla) {
     int id;
     cout << "Ingrese el ID del producto que desea modificar: ";
     cin >> id;
-    cout << "Seleccione el campo que desea modificar:\n1. Nombre del producto\n2. Tipo de producto\n3. Fecha\nOpcion: ";
+    cout << "Seleccione el campo que desea modificar:\n1. Nombre del producto\n2. Tipo de producto\n3. Fecha (ano-dia-mes)\nOpcion: ";
     int opcionCampo;
     cin >> opcionCampo;
     switch (opcionCampo) {
 
     case 1:
-        campo = "Nombre del producto";
+        campo = "nombre";
         break;
     case 2:
-        campo = "Tipo de producto";
+        campo = "tipo_producto";
         break;
     case 3:
-        campo = "Fecha de caducidad";
+        campo = "fecha_caducidad";
         break;
     default:
         cout << "Opcion de campo invalida." << endl;
@@ -374,7 +374,7 @@ void updateProductos(MySQLConnector& connector, const string& tabla) {
     cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
     cin.ignore();
     getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id = " + to_string(id);
+    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_producto = " + to_string(id);
     connector.update(query);
 }
 
@@ -389,16 +389,16 @@ void updateVentas(MySQLConnector& connector, const string& tabla) {
     cin >> opcionCampo;
     switch (opcionCampo) {
     case 1:
-        campo = "Fecha";
+        campo = "fecha";
         break;
     case 2:
-        campo = "Total de venta";
+        campo = "total_venta";
         break;
     case 3:
-        campo = "El NIT del cliente";
+        campo = "clientes_nit_cliente";
         break;
     case 4:
-        campo = "ID de empleado";
+        campo = "empleados_id_empelado";
         break;
     default:
         cout << "Opcion de campo invalida." << endl;
@@ -407,7 +407,7 @@ void updateVentas(MySQLConnector& connector, const string& tabla) {
     cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
     cin.ignore();
     getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id = " + to_string(id);
+    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_venta = " + to_string(id);
     connector.update(query);
 }
 
@@ -417,21 +417,21 @@ void updateDetallesVentas(MySQLConnector& connector, const string& tabla) {
     int id;
     cout << "Ingrese el ID del detalle de venta que desea modificar: ";
     cin >> id;
-    cout << "Seleccione el campo que desea modificar:\n1. Cantidad\n2. Precio\n3. ID_Producto\n4. ID_Venta\nOpcion: ";
+    cout << "Seleccione el campo que desea modificar:\n1. Cantidad\n2. Precio\n3. ID del producto\n4. ID de la ventaID_Venta\nOpcion: ";
     int opcionCampo;
     cin >> opcionCampo;
     switch (opcionCampo) {
     case 1:
-        campo = "Cantidad";
+        campo = "cantidad";
         break;
     case 2:
-        campo = "Precio";
+        campo = "precio";
         break;
     case 3:
-        campo = "ID del producto";
+        campo = "productos_id_producto";
         break;
     case 4:
-        campo = "ID de la venta";
+        campo = "ventas_id_venta";
         break;
     default:
         cout << "Opcion de campo invalida." << endl;
@@ -440,7 +440,7 @@ void updateDetallesVentas(MySQLConnector& connector, const string& tabla) {
     cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
     cin.ignore();
     getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id = " + to_string(id);
+    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_det_venta = " + to_string(id);
     connector.update(query);
 }
 void insertarEnEmpleados() {
@@ -458,7 +458,7 @@ void insertarEnEmpleados() {
     cin >> sexo;
     transform(sexo.begin(), sexo.end(), sexo.begin(), ::toupper);
     while (sexo != "M" && sexo != "F") {
-        cout << "Entrada inválida. Por favor ingrese 'M' para Masculino o 'F' para Femenino: ";
+        cout << "Entrada invÃ¡lida. Por favor ingrese 'M' para Masculino o 'F' para Femenino: ";
         cin >> sexo;
         transform(sexo.begin(), sexo.end(), sexo.begin(), ::toupper); 
     }
@@ -483,8 +483,8 @@ void insertarEnProductos() {
     getline(cin, fecha);
 
     string query = "INSERT INTO Productos (nombre, descripcion, fecha_caducidad) VALUES ('" + nombre + "', '" + descripcion + "', '" + fecha + "')";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    // connector.insert(query); // Descomentar esta lÃ­nea cuando tengas el objeto connector configurado
+    cout << query << endl; // Para demostraciÃ³n
 }
 
 void insertarEnClientes() {
@@ -506,8 +506,8 @@ void insertarEnClientes() {
     getline(cin, telefono);
 
     string query = "INSERT INTO Clientes (nit, nombre, apellido, email, telefono) VALUES ('" + nit + "','" + nombre + "','" + apellido + "','" + email + "','" + telefono + "')";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    // connector.insert(query); // Descomentar esta lÃ­nea cuando tengas el objeto connector configurado
+    cout << query << endl; // Para demostraciÃ³n
 }
 
 void insertarEnVenta() {
@@ -526,8 +526,8 @@ void insertarEnVenta() {
     cin >> total;
 
     string query = "INSERT INTO Venta (fecha, total, cliente_id, empleado_id) VALUES ('" + fecha + "', " + to_string(total) + ",'" + cliente_id + "', " + to_string(empleado_id) + ")";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    // connector.insert(query); // Descomentar esta lÃ­nea cuando tengas el objeto connector configurado
+    cout << query << endl; // Para demostraciÃ³n
 }
 
 void insertarEnDetallesVenta() {
@@ -543,6 +543,6 @@ void insertarEnDetallesVenta() {
     cin >> precio;
 
     string query = "INSERT INTO Detalles_Orden (cantidad, precio, producto_id, venta_id) VALUES (" + to_string(cantidad) + "," + to_string(precio) + ", " + to_string(producto_id) + ", " + to_string(venta_id) + ")";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    // connector.insert(query); // Descomentar esta lÃ­nea cuando tengas el objeto connector configurado
+    cout << query << endl; // Para demostraciÃ³n
 }
