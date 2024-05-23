@@ -96,11 +96,11 @@ void updateEmpleados(MySQLConnector& connector, const string& tabla);
 void updateProductos(MySQLConnector& connector, const string& tabla);
 void updateVentas(MySQLConnector& connector, const string& tabla);
 void updateDetallesVentas(MySQLConnector& connector, const string& tabla);
-void insertarEnEmpleados();
-void insertarEnProductos();
-void insertarEnClientes();
-void insertarEnVenta();
-void insertarEnDetallesVenta();
+void insertarEnEmpleados(MySQLConnector& connector, const string& tabla);
+void insertarEnProductos(MySQLConnector& connector, const string& tabla);
+void insertarEnClientes(MySQLConnector& connector, const string& tabla);
+void insertarEnVentas(MySQLConnector& connector, const string& tabla);
+void insertarEnDetalle_venta(MySQLConnector& connector, const string& tabla);
 
 int main() {
     MySQLConnector connector("localhost", "root", "/BBCN1978*1973", "proyectoProgra", 3306);
@@ -114,38 +114,39 @@ int main() {
 
         string tabla;
         switch (opcion) {
-        case 1:
+        case 1://Insertar datos, como todo CRUD necesita datos, y por ellos es importatante poder ingresar datos, según nuestra base de datos ncesitamos empleados, produtos, clientes, ventas, y detalle de ventas
         {
+            system("cls");//Utilizamos una limpieza de pantalla, evitando la saturación de información, y siendo más facil de entender para el usuario.
             cout << "Seleccione la tabla en la que desea insertar datos:\n1. Empleados\n2. Productos\n3. Clientes\n4. Venta\n5. Detalles_Venta\nTabla: ";
             int opcionTabla;
-            cin >> opcionTabla;
-
-            switch (opcionTabla) {
+            cin >> opcionTabla;//la unica variable que se creara
+            //Utilizamos un Switch para brindar la opción de escoger cuál será la tabla a la que se ingresara un nuevo objeto, son 5 opciones y por ellos escribiendo el numero de la tabla que se desea ingresar datos, sera suficiente
+            switch (opcionTabla) {//la dato que el usuario ingrese se tomará para el Switch, proporcionando una funcion.
             case 1:
-                tabla = "Empleados";
-                insertarEnEmpleados();
+                tabla = "empleados";
+                insertarEnEmpleados(connector, tabla);
                 break;
             case 2:
-                tabla = "Productos";
-                insertarEnProductos();
+                tabla = "productos";
+                insertarEnProductos(connector, tabla);
                 break;
             case 3:
-                tabla = "Clientes";
-                insertarEnClientes();
+                tabla = "clientes";
+                insertarEnClientes(connector, tabla);
                 break;
             case 4:
-                tabla = "Venta";
-                insertarEnVenta();
+                tabla = "ventas";
+                insertarEnVentas(connector, tabla);
                 break;
             case 5:
-                tabla = "Detalles_Venta";
-                insertarEnDetallesVenta();
+                tabla = "detalle_venta";
+                insertarEnDetalle_venta(connector, tabla);
                 break;
-            default:
+            default://En todo caso que ingrese un número que no es permitido, por ello se definen que numero es de cada tabla
                 cout << "Opcion de tabla invalida." << endl;
                 continue;
             }
-
+    
             break;
         }
         case 2:
@@ -461,16 +462,14 @@ void updateDetallesVentas(MySQLConnector& connector, const string& tabla) {
     string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_det_venta = " + to_string(id);
     connector.update(query);
 }
-void insertarEnEmpleados() {
+void insertarEnEmpleados(MySQLConnector& connector, const string& tabla) {
     string nombre, apellido, puesto, salario, sexo;
     cout << "Nombre del empleado: ";
     cin.ignore();
     getline(cin, nombre);
     cout << "Apellido del empleado: ";
-    cin.ignore();
     getline(cin, apellido);
     cout << "Puesto del trabajador: ";
-    cin.ignore();
     getline(cin, puesto);
     cout << "Sexo (M/F): ";
     cin >> sexo;
@@ -478,57 +477,49 @@ void insertarEnEmpleados() {
     while (sexo != "M" && sexo != "F") {
         cout << "Entrada inválida. Por favor ingrese 'M' para Masculino o 'F' para Femenino: ";
         cin >> sexo;
-        transform(sexo.begin(), sexo.end(), sexo.begin(), ::toupper); 
+        transform(sexo.begin(), sexo.end(), sexo.begin(), ::toupper);
     }
-    cout << "Cantidad de salario: ";
+    string genero = (sexo == "M") ? "Masculino" : "Femenino";
+    cout << "Cantidad de salario: Q";
     cin.ignore();
     getline(cin, salario);
-
-    string query = "INSERT INTO Empleados (nombre, apellido, puesto, sexo, salario) VALUES ('" + nombre + "','" + apellido + "','" + puesto + "','" + sexo + "','" + salario + "')";
-    cout << query << endl; 
+    string query = "INSERT INTO " + tabla + " (nombre, apellido, puesto, genero, salario) VALUES ('" + nombre + "','" + apellido + "','" + puesto + "','" + genero + "','" + salario + "')";
+    connector.insert(query);
 }
 
-void insertarEnProductos() {
+void insertarEnProductos(MySQLConnector& connector, const string& tabla) {
     string nombre, descripcion, fecha;
     cout << "Nombre del producto: ";
     cin.ignore();
     getline(cin, nombre);
     cout << "Tipo de producto: ";
-    cin.ignore();
     getline(cin, descripcion);
-    cout << "Fecha de caducidad (Ano-mes-dia): ";
-    cin.ignore();
+    cout << "Fecha de caducidad (ano-dia-mes): ";
     getline(cin, fecha);
 
-    string query = "INSERT INTO Productos (nombre, descripcion, fecha_caducidad) VALUES ('" + nombre + "', '" + descripcion + "', '" + fecha + "')";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    string query = "INSERT INTO " + tabla + " (nombre, tipo_producto, fecha_caducidad) VALUES ('" + nombre + "', '" + descripcion + "', '" + fecha + "')";
+    connector.insert(query);
 }
 
-void insertarEnClientes() {
+void insertarEnClientes(MySQLConnector& connector, const string& tabla) {
     string nit, nombre, apellido, telefono, email;
     cout << "Ingrese el NIT: ";
     cin.ignore();
     getline(cin, nit);
     cout << "Nombre del cliente: ";
-    cin.ignore();
     getline(cin, nombre);
     cout << "Apellido del cliente: ";
-    cin.ignore();
     getline(cin, apellido);
     cout << "Email: ";
-    cin.ignore();
     getline(cin, email);
     cout << "Numero de telefono: ";
-    cin.ignore();
     getline(cin, telefono);
 
-    string query = "INSERT INTO Clientes (nit, nombre, apellido, email, telefono) VALUES ('" + nit + "','" + nombre + "','" + apellido + "','" + email + "','" + telefono + "')";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    string query = "INSERT INTO " + tabla + " (nit_cliente, nombre, apellido, email, telefono) VALUES ('" + nit + "','" + nombre + "','" + apellido + "','" + email + "','" + telefono + "')";
+    connector.insert(query);
 }
 
-void insertarEnVenta() {
+void insertarEnVentas(MySQLConnector& connector, const string& tabla) {
     int empleado_id;
     string cliente_id, fecha;
     double total;
@@ -537,18 +528,17 @@ void insertarEnVenta() {
     getline(cin, cliente_id);
     cout << "ID del empleado: ";
     cin >> empleado_id;
-    cout << "Fecha de Compra: ";
+    cout << "Fecha de Compra (ano-dia-mes): ";
     cin.ignore();
     getline(cin, fecha);
-    cout << "Total de la venta: ";
+    cout << "Total de la venta: Q";
     cin >> total;
 
-    string query = "INSERT INTO Venta (fecha, total, cliente_id, empleado_id) VALUES ('" + fecha + "', " + to_string(total) + ",'" + cliente_id + "', " + to_string(empleado_id) + ")";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    string query = "INSERT INTO " + tabla + " (fecha, total_venta, clientes_nit_cliente, empleados_id_empleado) VALUES ('" + fecha + "', " + to_string(total) + ",'" + cliente_id + "', " + to_string(empleado_id) +")";
+    connector.insert(query);
 }
 
-void insertarEnDetallesVenta() {
+void insertarEnDetalle_venta(MySQLConnector& connector, const string& tabla) {
     int venta_id, producto_id, cantidad;
     double precio;
     cout << "ID de venta: ";
@@ -560,7 +550,6 @@ void insertarEnDetallesVenta() {
     cout << "Precio del producto: ";
     cin >> precio;
 
-    string query = "INSERT INTO Detalles_Orden (cantidad, precio, producto_id, venta_id) VALUES (" + to_string(cantidad) + "," + to_string(precio) + ", " + to_string(producto_id) + ", " + to_string(venta_id) + ")";
-    // connector.insert(query); // Descomentar esta línea cuando tengas el objeto connector configurado
-    cout << query << endl; // Para demostración
+    string query = "INSERT INTO " + tabla + " (cantidad, precio, productos_id_producto, ventas_id_venta) VALUES (" + to_string(cantidad) + "," + to_string(precio) + ", " + to_string(producto_id) + ", " + to_string(venta_id) + ")";
+    connector.insert(query);
 }
