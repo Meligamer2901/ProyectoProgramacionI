@@ -13,6 +13,8 @@ private:
     MYSQL_STMT* stmt;
 
 public:
+// Esta parte del codigo nos permite entrar a la base de datos, si consigue entrar nos indicara conexion exitosa y luego el menu plegable
+// En dado caso no conecte nos indicara error en la conexion y fin del programa
     MySQLConnector(const char* host, const char* user, const char* password, const char* database, int port) {
         connection = mysql_init(0);
         connection = mysql_real_connect(connection, host, user, password, database, port, NULL, 0);
@@ -24,14 +26,17 @@ public:
         }
     }
 
+//Void el que nos permite ingresar datos
     void insert(const string& query) {
         executeQuery(query);
     }
 
+//Void el que permite actualizar datos
     void update(const string& query) {
         executeQuery(query);
     }
 
+//Void el que permite eliminar datos datos
     void del(const string& query) {
         executeQuery(query);
     }
