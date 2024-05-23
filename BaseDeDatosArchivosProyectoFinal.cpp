@@ -96,11 +96,7 @@ void updateEmpleados(MySQLConnector& connector, const string& tabla);
 void updateProductos(MySQLConnector& connector, const string& tabla);
 void updateVentas(MySQLConnector& connector, const string& tabla);
 void updateDetallesVentas(MySQLConnector& connector, const string& tabla);
-void insertarEnEmpleados(MySQLConnector& connector, const string& tabla);
-void insertarEnProductos(MySQLConnector& connector, const string& tabla);
-void insertarEnClientes(MySQLConnector& connector, const string& tabla);
-void insertarEnVentas(MySQLConnector& connector, const string& tabla);
-void insertarEnDetalle_venta(MySQLConnector& connector, const string& tabla);
+
 
 int main() {
     MySQLConnector connector("localhost", "root", "/BBCN1978*1973", "proyectoProgra", 3306);
