@@ -1,6 +1,6 @@
 // James Emmanuel Bojorquez Gutierrez 5090-23-1345
 // Roberto Carlos de León Gramajo 5090-23-1762
-// Angelyn Judith Diáz Zeceña 5090-23-1407
+// Angelyn Judith Díaz Zeceña 5090-23-1407
 // Katherine Melissa Palacios Salguero 5090-23-682
 // Karla Rossmery Ramírez Ruano 5090-23-1802
 #include <iostream>
