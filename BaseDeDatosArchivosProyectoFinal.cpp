@@ -100,15 +100,98 @@ private:
     }
 };
 
+class Cliente {
+private:
+    string nit_cliente;
+    string nombre;
+    string apellido;
+    string email;
+    string telefono;
+
+public:
+    Cliente(const string& nit, const string& nom, const string& ape, const string& mail, const string& tel)
+        : nit_cliente(nit), nombre(nom), apellido(ape), email(mail), telefono(tel) {}
+
+    // Getters y Setters
+    string getNitCliente() const { return nit_cliente; }
+    void setNitCliente(const string& nit) { nit_cliente = nit; }
+
+    string getNombre() const { return nombre; }
+    void setNombre(const string& nom) { nombre = nom; }
+
+    string getApellido() const { return apellido; }
+    void setApellido(const string& ape) { apellido = ape; }
+
+    string getEmail() const { return email; }
+    void setEmail(const string& mail) { email = mail; }
+
+    string getTelefono() const { return telefono; }
+    void setTelefono(const string& tel) { telefono = tel; }
+
+    // Funciones para actualizar e insertar datos en la base de datos
+    void updateCliente(MySQLConnector& connector, const string& tabla) {
+        string campo;
+        string valor;
+        string id;
+        cout << "Ingrese el NIT del cliente que desea modificar: ";
+        cin >> id;
+        cout << "Seleccione el campo que desea modificar:\n1. NIT del cliente\n2. Nombre del cliente\n3. Apellido del cliente\n4. Email\n5. Telefono\nOpcion: ";
+        int opcionCampo;
+        cin >> opcionCampo;
+        switch (opcionCampo) {
+        case 1:
+            campo = "nit_cliente";
+            break;
+        case 2:
+            campo = "nombre";
+            break;
+        case 3:
+            campo = "apellido";
+            break;
+        case 4:
+            campo = "email";
+            break;
+        case 5:
+            campo = "telefono";
+            break;
+        default:
+            cout << "Opcion de campo invalida." << endl;
+            return;
+        }
+        cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
+        cin.ignore();
+        getline(cin, valor);
+        string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE nit_cliente = '" + id + "'";
+        connector.update(query);
+    }
+
+    void insertarCliente(MySQLConnector& connector, const string& tabla) {
+        string nit, nombre, apellido, telefono, email;
+        cout << "Ingrese el NIT: ";
+        cin.ignore();
+        getline(cin, nit);
+        cout << "Nombre del cliente: ";
+        getline(cin, nombre);
+        cout << "Apellido del cliente: ";
+        getline(cin, apellido);
+        cout << "Email: ";
+        getline(cin, email);
+        cout << "Numero de telefono: ";
+        getline(cin, telefono);
+
+        string query = "INSERT INTO " + tabla + " (nit_cliente, nombre, apellido, email, telefono) VALUES ('" + nit + "','" + nombre + "','" + apellido + "','" + email + "','" + telefono + "')";
+        connector.insert(query);
+    }
+
+};
+
 // Prototipos de las funciones
-void updateClientes(MySQLConnector& connector, const string& tabla);
 void updateEmpleados(MySQLConnector& connector, const string& tabla);
 void updateProductos(MySQLConnector& connector, const string& tabla);
 void updateVentas(MySQLConnector& connector, const string& tabla);
 void updateDetallesVentas(MySQLConnector& connector, const string& tabla);
 void insertarEnEmpleados(MySQLConnector& connector, const string& tabla);
 void insertarEnProductos(MySQLConnector& connector, const string& tabla);
-void insertarEnClientes(MySQLConnector& connector, const string& tabla);
 void insertarEnVentas(MySQLConnector& connector, const string& tabla);
 void insertarEnDetalle_venta(MySQLConnector& connector, const string& tabla);
 
@@ -305,41 +388,7 @@ int main() {
 }
 
 
-void updateClientes(MySQLConnector& connector, const string& tabla) {
-    string campo;
-    string valor;
-    string id; // Ahora es de tipo string
-    cout << "Ingrese el NIT del cliente que desea modificar: ";
-    cin >> id;
-    cout << "Seleccione el campo que desea modificar:\n1. NIT del empleado\n2. Nombre del cliente\n3. Apellido del cliente\n4. Email\n5. Telefono\nOpcion: ";
-    int opcionCampo;
-    cin >> opcionCampo;
-    switch (opcionCampo) {
-    case 1:
-        campo = "nit_cliente";
-        break;
-    case 2:
-        campo = "nombre";
-        break;
-    case 3:
-        campo = "apellido";
-        break;
-    case 4:
-        campo = "email";
-        break;
-    case 5:
-        campo = "telefono";
-        break;
-    default:
-        cout << "Opcion de campo invalida." << endl;
-        return;
-    }
-    cout << "Ingrese el nuevo detalle del objeto " << campo << ": ";
-    cin.ignore();
-    getline(cin, valor);
-    string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE nit_cliente = '" + id + "'"; // Corrección aquí
-    connector.update(query);
-}
+
 void updateEmpleados(MySQLConnector& connector, const string& tabla) {
     string campo;
     string valor;
@@ -472,6 +521,20 @@ void updateDetallesVentas(MySQLConnector& connector, const string& tabla) {
     string query = "UPDATE " + tabla + " SET " + campo + " = '" + valor + "' WHERE id_det_venta = " + to_string(id);
     connector.update(query);
 }
+
+void insertarEnProductos(MySQLConnector& connector, const string& tabla) {
+    string nombre, descripcion, fecha;
+    cout << "Nombre del producto: ";
+    cin.ignore();
+    getline(cin, nombre);
+    cout << "Tipo de producto: ";
+    getline(cin, descripcion);
+    cout << "Fecha de caducidad (ano-dia-mes): ";
+    getline(cin, fecha);
+
+    string query = "INSERT INTO " + tabla + " (nombre, tipo_producto, fecha_caducidad) VALUES ('" + nombre + "', '" + descripcion + "', '" + fecha + "')";
+    connector.insert(query);
+
 void insertarEnEmpleados(MySQLConnector& connector, const string& tabla) {
     string nombre, apellido, puesto, salario, sexo;
     cout << "Nombre del empleado: ";
@@ -495,39 +558,10 @@ void insertarEnEmpleados(MySQLConnector& connector, const string& tabla) {
     getline(cin, salario);
     string query = "INSERT INTO " + tabla + " (nombre, apellido, puesto, genero, salario) VALUES ('" + nombre + "','" + apellido + "','" + puesto + "','" + genero + "','" + salario + "')";
     connector.insert(query);
+    string mensaje = "Nuevo empleado insertado: " + nombre + " " + apellido;
+    escribirHist(mensaje);
 }
 
-void insertarEnProductos(MySQLConnector& connector, const string& tabla) {
-    string nombre, descripcion, fecha;
-    cout << "Nombre del producto: ";
-    cin.ignore();
-    getline(cin, nombre);
-    cout << "Tipo de producto: ";
-    getline(cin, descripcion);
-    cout << "Fecha de caducidad (ano-dia-mes): ";
-    getline(cin, fecha);
-
-    string query = "INSERT INTO " + tabla + " (nombre, tipo_producto, fecha_caducidad) VALUES ('" + nombre + "', '" + descripcion + "', '" + fecha + "')";
-    connector.insert(query);
-}
-
-void insertarEnClientes(MySQLConnector& connector, const string& tabla) {
-    string nit, nombre, apellido, telefono, email;
-    cout << "Ingrese el NIT: ";
-    cin.ignore();
-    getline(cin, nit);
-    cout << "Nombre del cliente: ";
-    getline(cin, nombre);
-    cout << "Apellido del cliente: ";
-    getline(cin, apellido);
-    cout << "Email: ";
-    getline(cin, email);
-    cout << "Numero de telefono: ";
-    getline(cin, telefono);
-
-    string query = "INSERT INTO " + tabla + " (nit_cliente, nombre, apellido, email, telefono) VALUES ('" + nit + "','" + nombre + "','" + apellido + "','" + email + "','" + telefono + "')";
-    connector.insert(query);
-}
 
 void insertarEnVentas(MySQLConnector& connector, const string& tabla) {
     int empleado_id;
@@ -562,4 +596,30 @@ void insertarEnDetalle_venta(MySQLConnector& connector, const string& tabla) {
 
     string query = "INSERT INTO " + tabla + " (cantidad, precio, productos_id_producto, ventas_id_venta) VALUES (" + to_string(cantidad) + "," + to_string(precio) + ", " + to_string(producto_id) + ", " + to_string(venta_id) + ")";
     connector.insert(query);
+}
+
+void escribirHist(const string& mensaje) {
+    ofstream archivo("historial.txt", ios::app);
+    if (archivo.is_open()) {
+        archivo << mensaje << endl;
+        archivo.close();
+    }
+    else {
+        cout << "No se pudo abrir el archivo de historial." << endl;
+    }
+}
+
+void mostrarHist() {
+    ifstream archivo("historial.txt");
+    if (archivo.is_open()) {
+        string linea;
+        cout << "Historial de operaciones:\n";
+        while (getline(archivo, linea)) {
+            cout << linea << endl;
+        }
+        archivo.close();
+    }
+    else {
+        cout << "No se pudo abrir el archivo de historial." << endl;
+    }
 }
