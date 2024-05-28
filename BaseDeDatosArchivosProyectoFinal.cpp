@@ -281,7 +281,7 @@ int main() {
         cin >> opcion;
 
         string tabla;
-        switch (opcion) {
+         switch (opcion) {
         case 1://Insertar datos, como todo CRUD necesita datos, y por ellos es importatante poder ingresar datos, según nuestra base de datos ncesitamos empleados, produtos, clientes, ventas, y detalle de ventas
         {
             system("cls");//Utilizamos una limpieza de pantalla, evitando la saturación de información, y siendo más facil de entender para el usuario.
@@ -298,10 +298,12 @@ int main() {
                 tabla = "productos";
                 insertarEnProductos(connector, tabla);
                 break;
-            case 3:
+            case 3: // Clientes
+            {
                 tabla = "clientes";
-                insertarEnClientes(connector, tabla);
+                cliente.insertarCliente(connector, tabla);
                 break;
+            }
             case 4:
                 tabla = "ventas";
                 insertarEnVentas(connector, tabla);
@@ -325,9 +327,9 @@ int main() {
             cin >> opcionTabla;
 
             switch (opcionTabla) {
-            case 1:
+            case 1: // Clientes
                 tabla = "clientes";
-                updateClientes(connector, tabla);
+                cliente.updateCliente(connector, tabla);
                 break;
             case 2:
                 tabla = "detalle_venta";
@@ -447,13 +449,17 @@ int main() {
             connector.select(query);
             break;
         }
-        case 5:
+        case 5: // Ver historial
+            mostrarHist();
+            break;
+             
+        case 6:
             cout << "Saliendo..." << endl;
             break;
         default:
             cout << "Opcion no valida. Por favor, intente de nuevo." << endl;
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 
     cout << "Presione Enter para salir...";
     cin.ignore();
