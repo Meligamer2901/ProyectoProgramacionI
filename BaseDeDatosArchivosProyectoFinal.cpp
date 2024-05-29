@@ -114,76 +114,6 @@ private:
     int edad;
 
 public:
-    // Constructor
-    ClientesCumpleaños(const string& nit, const string& nom, const string& ape, const string& mail, const string& tel)
-        : Cliente(nit, nom, ape, mail, tel) {}
-
-    // Setter para la fecha de cumpleaños
-    void setFechaCumpleaños(const string& fecha) {
-        fecha_cumpleaños = fecha;
-    }
-
-    // Setter para la edad
-    void setEdad(int years) {
-        edad = years;
-    }
-
-    // Función para insertar cliente y su información de cumpleaños en el archivo clientesPremium.txt
-    void insertarClientePremium(ofstream& archivo) {
-        // Insertar información del cliente en el archivo
-        archivo << "NIT: " << getNitCliente() << ", Nombre: " << getNombre() << " " << getApellido() << ", Email: " << getEmail() << ", Teléfono: " << getTelefono() << ", Cumpleaños: " << fecha_cumpleaños << ", Edad: " << edad << endl;
-    }
-};
-void insertarClientePremium() {
-    // Crear un objeto de la clase ClientesCumpleaños
-    ClientesCumpleaños cliente("", "", "", "", "");
-
-    // Solicitar información del cliente
-    string nit, nombre, apellido, email, telefono;
-    cout << "Ingrese el NIT: ";
-    cin.ignore();
-    getline(cin, nit);
-    cout << "Nombre del cliente: ";
-    getline(cin, nombre);
-    cout << "Apellido del cliente: ";
-    getline(cin, apellido);
-    cout << "Email: ";
-    getline(cin, email);
-    cout << "Numero de telefono: ";
-    getline(cin, telefono);
-
-    cliente.setNitCliente(nit);
-    cliente.setNombre(nombre);
-    cliente.setApellido(apellido);
-    cliente.setEmail(email);
-    cliente.setTelefono(telefono);
-
-    // Solicitar información del cumpleaños
-    string fecha_cumpleaños;
-    cout << "Ingrese la fecha de cumpleaños (AAAA-MM-DD): ";
-    cin >> fecha_cumpleaños;
-    cliente.setFechaCumpleaños(fecha_cumpleaños);
-
-    // Solicitar edad
-    int edad;
-    cout << "Ingrese la edad: ";
-    cin >> edad;
-    cliente.setEdad(edad);
-
-    // Abrir archivo clientesPremium.txt en modo de escritura
-    ofstream archivo("clientesPremium.txt", ios::app);
-    if (archivo.is_open()) {
-        // Insertar cliente y su información de cumpleaños en el archivo
-        cliente.insertarClientePremium(archivo);
-        cout << "Cliente insertado en clientesPremium.txt." << endl;
-        archivo.close();
-    }
-    else {
-        cout << "Error al abrir el archivo clientesPremium.txt." << endl;
-    }
-}
-
-public:
     Cliente(const string& nit, const string& nom, const string& ape, const string& mail, const string& tel)
         : nit_cliente(nit), nombre(nom), apellido(ape), email(mail), telefono(tel) {}
 
@@ -259,6 +189,76 @@ public:
     }
 
 };
+
+public:
+    // Constructor
+    ClientesCumpleaños(const string& nit, const string& nom, const string& ape, const string& mail, const string& tel)
+        : Cliente(nit, nom, ape, mail, tel) {}
+
+    // Setter para la fecha de cumpleaños
+    void setFechaCumpleaños(const string& fecha) {
+        fecha_cumpleaños = fecha;
+    }
+
+    // Setter para la edad
+    void setEdad(int years) {
+        edad = years;
+    }
+
+    // Función para insertar cliente y su información de cumpleaños en el archivo clientesPremium.txt
+    void insertarClientePremium(ofstream& archivo) {
+        // Insertar información del cliente en el archivo
+        archivo << "NIT: " << getNitCliente() << ", Nombre: " << getNombre() << " " << getApellido() << ", Email: " << getEmail() << ", Teléfono: " << getTelefono() << ", Cumpleaños: " << fecha_cumpleaños << ", Edad: " << edad << endl;
+    }
+};
+void insertarClientePremium() {
+    // Crear un objeto de la clase ClientesCumpleaños
+    ClientesCumpleaños cliente("", "", "", "", "");
+
+    // Solicitar información del cliente
+    string nit, nombre, apellido, email, telefono;
+    cout << "Ingrese el NIT: ";
+    cin.ignore();
+    getline(cin, nit);
+    cout << "Nombre del cliente: ";
+    getline(cin, nombre);
+    cout << "Apellido del cliente: ";
+    getline(cin, apellido);
+    cout << "Email: ";
+    getline(cin, email);
+    cout << "Numero de telefono: ";
+    getline(cin, telefono);
+
+    cliente.setNitCliente(nit);
+    cliente.setNombre(nombre);
+    cliente.setApellido(apellido);
+    cliente.setEmail(email);
+    cliente.setTelefono(telefono);
+
+    // Solicitar información del cumpleaños
+    string fecha_cumpleaños;
+    cout << "Ingrese la fecha de cumpleaños (AAAA-MM-DD): ";
+    cin >> fecha_cumpleaños;
+    cliente.setFechaCumpleaños(fecha_cumpleaños);
+
+    // Solicitar edad
+    int edad;
+    cout << "Ingrese la edad: ";
+    cin >> edad;
+    cliente.setEdad(edad);
+
+    // Abrir archivo clientesPremium.txt en modo de escritura
+    ofstream archivo("clientesPremium.txt", ios::app);
+    if (archivo.is_open()) {
+        // Insertar cliente y su información de cumpleaños en el archivo
+        cliente.insertarClientePremium(archivo);
+        cout << "Cliente insertado en clientesPremium.txt." << endl;
+        archivo.close();
+    }
+    else {
+        cout << "Error al abrir el archivo clientesPremium.txt." << endl;
+    }
+}
 
 // Prototipos de las funciones
 void updateEmpleados(MySQLConnector& connector, const string& tabla);
